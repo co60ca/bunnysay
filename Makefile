@@ -6,7 +6,7 @@ OBJECTS_BUN = $(OBJECTS) runbunnysay.o
 OBJECTS_TEST = $(OBJECTS) runetests.o
 
 
-CXXFLAGS = -Wall -Wextra -std=c++11
+CXXFLAGS := $(CXXFLAGS) -Wall -Wextra -std=c++11
 DEBUG = -g
 
 # The install rule below uses this variable to determine where to install
@@ -18,6 +18,9 @@ endif
 bunnysay: $(OBJECTS_BUN)
 	$(CXX) -O2 $(CXXFLAGS) -o bunnysay $(OBJECTS_BUN)
 
+WASM_SRC = src/bunnysay.cc src/rune.cc
+bunnysay.js: $(WASM_SRC)
+	emcc $(WASM_SRC) -O2 $(CXXFLAGS) -s WASM=1 -s EXPORTED_FUNCTIONS="['_bunnyify_c']" -o bunnysay.js
 # Builds all the object files we need
 # This is an implicit rule and pattern rule, this one tells us how to make .o
 # file from src/%.cc files. Thereby, when the bunnysay target needs the
@@ -40,5 +43,5 @@ install : bunnysay
 
 .PHONY: clean
 clean : 
-	rm *.o tests bunnysay
+	rm *.o tests bunnysay bunnysay.js bunnysay.wasm | true
 

@@ -151,7 +151,6 @@ std::vector<std::vector<Rune>> applyTrailerHeader(const
 
   return res;
 }
-
 std::string bunnyify(const std::string &text) {
   auto rv = runesFromString(text);
   auto lines = splitLines(rv, 10);
@@ -164,4 +163,11 @@ std::string bunnyify(const std::string &text) {
     result += to_string(bunline) + "\n";
   }
   return result;
+}
+
+extern "C" {
+  const char * bunnyify_c(char *data) {
+    const char * output = bunnyify(std::string(data)).c_str();
+    return output;
+  }
 }
