@@ -31,6 +31,19 @@ void usage(char *prog) {
 
 int main(int argc, char **argv) {
   std::string buff;
+  bool truemode = false;
+  // Check for -g flag
+  for (int i = 1; i < argc; i++) {
+    if (std::string(argv[i]) == "-g") {
+      truemode = true;
+      // Move args backwards
+      for (; i < argc - 1; i++) {
+        argv[i] = argv[i+1];
+      }
+      argc = argc-1;
+      break;
+    }
+  }
   if (argc >= 2 && std::string(argv[1]) == "--") {
     std::string line;
     while (std::getline(std::cin, line)) {
@@ -47,5 +60,5 @@ int main(int argc, char **argv) {
     usage(*argv);
     return 0;
   }
-  std::cout << bunnyify(buff);
+  std::cout << bunnyify(buff, truemode);
 }

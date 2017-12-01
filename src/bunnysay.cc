@@ -114,10 +114,12 @@ void padTo(std::vector<std::vector<Rune>> *input, size_t width) {
 }
 
 std::vector<std::vector<Rune>> applyTrailerHeader(const 
-    std::vector<std::vector<Rune>> &input, size_t width) {
+    std::vector<std::vector<Rune>> &input, size_t width, bool truemode) {
   static const Rune vertbar(0xFF5C);
   static const Rune topbar(0xFFE3);
   static const Rune botbar(0xFF3F);
+
+  static const std::vector<Rune> girlbun1 = runesFromString("(\\_❀) ||");
   static const std::vector<Rune> bun1 = runesFromString("(\\__/) ||");
   static const std::vector<Rune> bun2 = runesFromString("(•ㅅ•) ||");
   static const std::vector<Rune> bun3 = runesFromString("/ 　 づ");
@@ -144,20 +146,23 @@ std::vector<std::vector<Rune>> applyTrailerHeader(const
   }
   templine.push_back(vertbar);
   res.push_back(templine);
-
-  res.push_back(bun1);
+  if (truemode) {
+    res.push_back(girlbun1);
+  } else {
+    res.push_back(bun1);
+  }
   res.push_back(bun2);
   res.push_back(bun3);
 
   return res;
 }
-std::string bunnyify(const std::string &text) {
+std::string bunnyify(const std::string &text, bool truemode) {
   auto rv = runesFromString(text);
   auto lines = splitLines(rv, 10);
   padTo(&lines, 10);
   fullWidth(&lines);
 
-  auto bun = applyTrailerHeader(lines, 12);
+  auto bun = applyTrailerHeader(lines, 12, truemode);
   std::string result;
   for (auto &bunline: bun) {
     result += to_string(bunline) + "\n";
@@ -166,8 +171,8 @@ std::string bunnyify(const std::string &text) {
 }
 
 extern "C" {
-  const char * bunnyify_c(char *data) {
-    const char * output = bunnyify(std::string(data)).c_str();
+  const char * bunnyify_c(char *data, bool truemode) {
+    const char * output = bunnyify(std::string(data), truemode).c_str();
     return output;
   }
 }

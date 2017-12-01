@@ -136,7 +136,7 @@ void testBunnify() {
   padTo(&lines, 8);
   fullWidth(&lines);
 
-  auto bun = applyTrailerHeader(lines, 10);
+  auto bun = applyTrailerHeader(lines, 10, false);
 //  for (auto &bunline: bun) {
 //    std::cout << to_string(bunline) << std::endl;
 //  }
@@ -149,6 +149,6 @@ int main() {
   testSplits();
   testPrints();
   testStrings();
-  std::cout << bunnyify("Looks good boss!") << std::endl;
+  std::cout << bunnyify("Looks good boss!", false) << std::endl;
   return 0;
 }

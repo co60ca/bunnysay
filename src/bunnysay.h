@@ -44,8 +44,8 @@ void padTo(std::vector<std::vector<Rune>> *input, size_t width);
 // bottom of the bunny sign. It assumes fullWidth has been applied already
 // and will create the top and bottom based on the size given by width
 std::vector<std::vector<Rune>> applyTrailerHeader(const 
-    std::vector<std::vector<Rune>> &input, size_t width);
+    std::vector<std::vector<Rune>> &input, size_t width, bool truemode);
 
 // bunnyify takes in a UTF-8 string and returns a UTF-8 encoded string of
 // the input string with the bunny adornments as seen on @bunnysay_ebooks
-std::string bunnyify(const std::string &text);
+std::string bunnyify(const std::string &text, bool truemode);
